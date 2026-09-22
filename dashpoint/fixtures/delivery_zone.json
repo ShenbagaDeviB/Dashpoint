@@ -1,0 +1,29 @@
+[
+ {
+  "avg_delivery_hours": 3,
+  "description": "This is North Zone Delivery for Dashpoint Application",
+  "docstatus": 0,
+  "doctype": "Delivery Zone",
+  "modified": "2026-09-22 18:36:39.329774",
+  "name": "North Zone",
+  "zone_name": "North Zone"
+ },
+ {
+  "avg_delivery_hours": 4,
+  "description": "This is South Zone Delivery for Dashpoint Application",
+  "docstatus": 0,
+  "doctype": "Delivery Zone",
+  "modified": "2026-09-22 18:37:07.167484",
+  "name": "South Zone",
+  "zone_name": "South Zone"
+ },
+ {
+  "avg_delivery_hours": 5,
+  "description": "This is Central Zone Delivery for Dashpoint Application",
+  "docstatus": 0,
+  "doctype": "Delivery Zone",
+  "modified": "2026-09-22 18:37:28.059831",
+  "name": "Central Zone",
+  "zone_name": "Central Zone"
+ }
+]

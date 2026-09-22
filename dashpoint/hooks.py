@@ -5,6 +5,14 @@ app_description = "DashPoint is a local same-day courier service with 12 riders 
 app_email = "shenbagadevi3306@gmail.com"
 app_license = "mit"
 
+fixtures=[
+    {
+    "dt":"Delivery Zone",
+    "filters":[
+        ["zone_name","in",["North Zone","Central Zone","South Zone"]]
+        ]
+    }
+    ]
 # Apps
 # ------------------
 
