@@ -11,8 +11,26 @@ fixtures=[
     "filters":[
         ["zone_name","in",["North Zone","Central Zone","South Zone"]]
         ]
-    }
+    },
+    {
+    "dt":"Role",
+    "filters":[
+        ["role_name","in",["DP Dispatch Staff","DP Rider","DP Ops Manager"]]
     ]
+    },
+    {
+        "dt":"DocPerm",
+        "filters":[
+            ["role","in",["DP Dispatch Staff","DP Rider","DP Ops Manager"]]
+        ]
+        }
+    ]
+
+permission_query_conditions={
+    "Delivery Order":"dashpoint.permissionquery.delivery_order_query"
+}
+
+
 # Apps
 # ------------------
 

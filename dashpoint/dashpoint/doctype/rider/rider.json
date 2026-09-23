@@ -99,7 +99,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-09-22 19:21:41.310466",
+ "modified": "2026-09-23 10:54:39.462326",
  "modified_by": "Administrator",
  "module": "Dashpoint",
  "name": "Rider",
@@ -114,13 +114,8 @@
    "write": 1
   },
   {
-   "email": 1,
-   "export": 1,
-   "print": 1,
    "read": 1,
-   "report": 1,
-   "role": "DP Dispatch Staff",
-   "share": 1
+   "role": "DP Dispatch Staff"
   },
   {
    "if_owner": 1,

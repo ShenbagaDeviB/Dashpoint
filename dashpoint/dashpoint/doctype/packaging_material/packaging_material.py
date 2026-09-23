@@ -11,4 +11,3 @@ class PackagingMaterial(Document):
 	def validate(self):
 		if self.charge_to_customer <= self.unit_cost:
 			frappe.msgprint("Unit cost should be less than the charge to customer always")
-      
