@@ -1,4 +1,12 @@
 import frappe
+from frappe.query_builder import DocType  # type: ignore[reportMissingImports]
+from frappe.query_builder.functions import Now  # type: ignore[import-not-found]
+
+@frappe.whitelist()
+def get_stuck_deliveries():
+    DO=DocType("Delivery Order")
+    result=frappe.qb.from_(DO).select(DO.name,DO.customer_name,DO.assigned_rider,DO.creation).where((DO.status.isin (["In Transit","Re-Attempt Scheduled"]))&(DO.creation < frappe.utils.add_days(frappe.utils.now_datetime(),-2))).orderby(DO.creation).run(as_dict=True)
+    return result
 
 @frappe.whitelist()
 def share_delivery_order(delivery_order_name, user_email):

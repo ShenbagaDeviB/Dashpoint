@@ -1,6 +1,6 @@
-Dashpoint 
+### Dashpoint 
 
-C3 – Rename a Test Rider Record
+### C3 – Rename a Test Rider Record
 
 We have a Rider DocType with the naming series RDR-.####.
 We also have a Delivery Order DocType. 
@@ -10,7 +10,7 @@ The new name will also be updated in the assigned_rider field of the Delivery Or
 This happens because assigned_rider is a Link field connected to the Rider DocType. 
 Frappe automatically updates the linked record when the Rider is renamed.
 
-D2 – Why is frappe.get_all dangerous in a whitelisted method exposed to low-privilege users?
+### D2 – Why is frappe.get_all dangerous in a whitelisted method exposed to low-privilege users?
 First, what is a whitelisted method?
 A whitelisted method is a method that can be called from the client or user side.
 Then, what is frappe.get_all?
@@ -18,3 +18,25 @@ frappe.get_all is used to fetch records. But it does not check the user's permis
 Because of this, a low-privilege user may be able to see data that they are not allowed to access.
 This can cause unauthorized data access.
 To avoid this, we can use frappe.get_list. It also fetches records, but it applies the user's permissions.
+
+### The Recursion Pitfall
+
+on_update() is called whenever a document is updated.
+If we call self.save() inside on_update(), it triggers the update process again.
+This calls on_update() again.
+This creates an infinite loop /recursion.
+It causes a RecursionError and the process may crash.
+So, avoid using self.save() inside on_update().
+If we need to update a field, we can update the field directly
+
+
+### merge=True
+
+We don't use merge=True because it merges both old and new name
+
+
+### One Performance Judgment Call
+
+We choose frappe.db.get_value because we only need low stock threshold
+We didn' need entire Dispatch Settings
+We will be directly fetch our requirements through frappe.db.get_value

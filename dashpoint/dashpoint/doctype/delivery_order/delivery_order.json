@@ -56,9 +56,10 @@
   },
   {
    "fieldname": "customer_phone",
-   "fieldtype": "Phone",
+   "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Customer Phone",
+   "options": "Phone",
    "reqd": 1
   },
   {
@@ -189,11 +190,12 @@
    "read_only": 1
   },
   {
+   "default": "No Reason",
    "depends_on": "eval:doc.status==\"Delivery Failed\"",
    "fieldname": "failure_reason",
    "fieldtype": "Select",
    "label": "Failure Reason",
-   "options": "Customer Unavailable\nWrong Address\nRefused\nOther"
+   "options": "No Reason\nCustomer Unavailable\nWrong Address\nRefused\nOther"
   },
   {
    "fieldname": "remarks",
@@ -212,7 +214,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-09-22 19:24:25.405440",
+ "modified": "2026-09-23 14:52:45.786618",
  "modified_by": "Administrator",
  "module": "Dashpoint",
  "name": "Delivery Order",
