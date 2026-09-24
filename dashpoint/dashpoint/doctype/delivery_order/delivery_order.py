@@ -90,6 +90,7 @@ class DeliveryOrder(Document):
     
     def on_update(self):
         pass
+            
 def send_delivery_confirmation(delivery_order):
 		rec=frappe.get_doc("Delivery Order",delivery_order)
 		frappe.sendmail(

@@ -40,3 +40,15 @@ We don't use merge=True because it merges both old and new name
 We choose frappe.db.get_value because we only need low stock threshold
 We didn' need entire Dispatch Settings
 We will be directly fetch our requirements through frappe.db.get_value
+
+### B2c - Document Lifecycle Bugs
+
+1.self.save() inside validate() can cause a recursion pitfall, where it runs again and again. So, self.save() should be avoided to prevent unnecessary loops.
+
+2.Running stock updation inside validate() means every time validation is called, the stock update also runs. This can cause repeated stock updates and lead to unusual/incorrect values.
+
+So, we have to avoid self.save() and stock updation inside validate().
+
+### B2d - Optimistic Locking
+
+Same document is edited by two different staff. The first person saves the changes, and those changes are stored. If the second person tries to save, Frappe throws an error saying “Document has been modified after you opened it.” Frappe checks the modified timestamp to detect this and prevents the second save from overwriting the first person’s changes.

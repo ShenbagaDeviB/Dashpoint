@@ -30,6 +30,13 @@ permission_query_conditions={
     "Delivery Order":"dashpoint.permissionquery.delivery_order_query"
 }
 
+doc_events = {
+    "*": {
+        "on_update": "dashpoint.audit.log_change",
+        "on_submit": "dashpoint.audit.log_change",
+        "on_cancel": "dashpoint.audit.log_change",
+}
+}
 
 # Apps
 # ------------------
