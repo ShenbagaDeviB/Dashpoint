@@ -19,7 +19,7 @@ Because of this, a low-privilege user may be able to see data that they are not 
 This can cause unauthorized data access.
 To avoid this, we can use frappe.get_list. It also fetches records, but it applies the user's permissions.
 
-### The Recursion Pitfall
+### E1-The Recursion Pitfall
 
 on_update() is called whenever a document is updated.
 If we call self.save() inside on_update(), it triggers the update process again.
@@ -30,12 +30,12 @@ So, avoid using self.save() inside on_update().
 If we need to update a field, we can update the field directly
 
 
-### merge=True
+### E2-merge=True
 
 We don't use merge=True because it merges both old and new name
 
 
-### One Performance Judgment Call
+### E3-One Performance Judgment Call
 
 We choose frappe.db.get_value because we only need low stock threshold
 We didn' need entire Dispatch Settings
@@ -59,3 +59,25 @@ frappe.call() is an async function, in which we get the response later.
 So, validate() happens just before the save. If we write frappe.call() inside validate(), we get the response after the validation is over.
 
 Then comes onload() and refresh(). These run when we open or refresh the form, so we can use frappe.call() here to fetch the data.
+
+### K2-Spot the N+1
+
+# N+1 PROBLEM - fix this
+orders = frappe.get_all("Delivery Order", fields=["name","assigned_rider"])
+for o in orders:
+    rider = frappe.get_doc("Rider", o.assigned_rider)
+    print(rider.rider_name, rider.phone)
+
+If we have 10 orders we have 10+1 --> 11 queries 
+First of all we collect every rider details and the total rider details 
+So it may cause n+1 problem
+So avoid querying inside the loop 
+First bulk fetching then use loop
+
+orders = frappe.get_all("Delivery Order", fields=["name","assigned_rider"])
+riders = frappe.get_all("Rider",fields=["name","rider_name","phone"])
+
+for o in orders:
+    for rider in riders:
+        if o.assigned_rider==rider.name:
+            print(rider.rider_name,rider.phone)

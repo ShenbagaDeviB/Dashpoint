@@ -24,7 +24,38 @@ frappe.ui.form.on("Delivery Order", {
         }
         if (frm.doc.status=="In Transit" || frm.doc.status=="Re-attempt Scheduled") {
             frm.add_custom_button("Log Delivery Attempt", function() {
-                frappe.msgprint("Log Delivery Attempt clicked");
+                let d = new frappe.ui.Dialog({
+                title: "Log Delivery Attempt",
+                fields: [
+                    {
+                        label: "Outcome",
+                        fieldname: "outcome",
+                        fieldtype: "Select",
+                        options: "Delivered\nFailed",
+                        reqd: 1
+                    },
+                    {
+                        label: "Failure Reason",
+                        fieldname: "failure_reason",
+                        fieldtype: "Small Text"
+                    }
+                ],
+                primary_action_label: "Submit",
+                primary_action(values) {
+                    if (values.outcome === "Failed" && !values.failure_reason) {
+                        frappe.msgprint("Failure Reason is required");
+                        return;
+                    }
+                    if (values.outcome === "Failed") {
+                        frm.set_value("status", "Delivery Failed");
+                    }
+                    frappe.msgprint("Outcome: " + values.outcome + " Failure Reason: " + values.failure_reason);
+                    d.hide();
+                    frm.trigger("assigned_rider");
+                }
+            });
+
+            d.show();
             });
         }
     },
