@@ -27,6 +27,22 @@ frappe.ui.form.on("Delivery Order", {
                 frappe.msgprint("Log Delivery Attempt clicked");
             });
         }
+    },
+    assigned_rider(frm){
+        frappe.db.get_value("Rider",frm.doc.assigned_rider,"assigned_zone",
+            r =>{
+                if(r.assigned_zone!=frm.doc.delivery_zone){
+                    frappe.msgprint("Zone mismatch")
+                }
+            }
+        )
     }
-    
  });
+
+ frappe.ui.form.on("Packaging Usage Entry",{
+    quantity(frm,cdt,cdn){
+        let row=locals[cdt][cdn]
+        let total=row.quantity*row.unit_price
+        frappe.model.set_value(cdt,cdn,"total_price",total)
+    }
+ })

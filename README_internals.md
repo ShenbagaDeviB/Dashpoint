@@ -52,3 +52,10 @@ So, we have to avoid self.save() and stock updation inside validate().
 ### B2d - Optimistic Locking
 
 Same document is edited by two different staff. The first person saves the changes, and those changes are stored. If the second person tries to save, Frappe throws an error saying “Document has been modified after you opened it.” Frappe checks the modified timestamp to detect this and prevents the second save from overwriting the first person’s changes.
+
+### H1- Why does a frappe.call inside the validate client event not work, and why must async fetches happen in onload/refresh instead?
+
+frappe.call() is an async function, in which we get the response later.
+So, validate() happens just before the save. If we write frappe.call() inside validate(), we get the response after the validation is over.
+
+Then comes onload() and refresh(). These run when we open or refresh the form, so we can use frappe.call() here to fetch the data.
