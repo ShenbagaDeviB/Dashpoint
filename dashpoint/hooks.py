@@ -30,6 +30,8 @@ permission_query_conditions={
     "Delivery Order":"dashpoint.permissionquery.delivery_order_query"
 }
 
+after_install = "dashpoint.install.after_install"
+
 doc_events = {
     "*": {
         "on_update": "dashpoint.audit.log_change",

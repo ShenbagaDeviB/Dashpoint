@@ -13,6 +13,9 @@ frappe.ui.form.on("Delivery Order", {
         });
  	},
     refresh(frm) {
+        if (!frappe.user.has_role("DP Ops Manager")) {
+            frm.set_df_property("customer_phone", "hidden", 1);
+        }
         if (frm.doc.status == "Delivered") {
             frm.dashboard.add_indicator("Delivered","green") 
         }
@@ -46,10 +49,17 @@ frappe.ui.form.on("Delivery Order", {
                         frappe.msgprint("Failure Reason is required");
                         return;
                     }
-                    if (values.outcome === "Failed") {
-                        frm.set_value("status", "Delivery Failed");
-                    }
-                    frappe.msgprint("Outcome: " + values.outcome + " Failure Reason: " + values.failure_reason);
+                    frappe.call({
+                        method: "dashpoint.dashpoint.doctype.delivery_order.delivery_order.record_delivery_attempt",
+                        args: {
+                            delivery_order_name: frm.doc.name,
+                            outcome: values.outcome,
+                            failure_reason: values.failure_reason
+                        },
+                        callback(r) {
+                            frm.reload_doc();
+                        }
+                    });
                     d.hide();
                     frm.trigger("assigned_rider");
                 }
@@ -58,6 +68,36 @@ frappe.ui.form.on("Delivery Order", {
             d.show();
             });
         }
+        frm.add_custom_button("Reassign Rider", function() {
+            frappe.prompt([
+                    {
+                        label: "New Rider",
+                        fieldname: "new_rider",
+                        fieldtype: "Link",
+                        options: "Rider",
+                        reqd: 1
+                    }
+                ],
+                function(values) {
+                    frappe.confirm("Are you sure you want to reassign this delivery?",
+                        function() {
+                            frappe.call({
+                                method: "dashpoint.utils.reassign_rider",
+                                args: {
+                                    delivery_order_name: frm.doc.name,
+                                    new_rider: values.new_rider
+                                },
+                                callback(r) {
+                                    frm.reload_doc();
+                                }
+                            });
+                        }
+                    );
+                },
+                "Reassign Rider",
+                "Confirm"
+            );
+        });
     },
     assigned_rider(frm){
         frappe.db.get_value("Rider",frm.doc.assigned_rider,"assigned_zone",

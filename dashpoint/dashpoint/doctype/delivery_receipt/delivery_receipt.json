@@ -2,6 +2,7 @@
  "actions": [],
  "allow_bulk_edit": 1,
  "allow_rename": 1,
+ "autoname": "DR-.YYYY.-.#####",
  "creation": "2026-09-22 15:33:55.597246",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -25,9 +26,8 @@
   },
   {
    "fieldname": "receipt_number",
-   "fieldtype": "Select",
-   "label": "Receipt Number",
-   "options": "DR-.YYYY.-.#####"
+   "fieldtype": "Data",
+   "label": "Receipt Number"
   },
   {
    "fieldname": "delivery_order",
@@ -93,10 +93,11 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-09-24 14:03:46.946082",
+ "modified": "2026-09-25 14:54:10.691764",
  "modified_by": "Administrator",
  "module": "Dashpoint",
  "name": "Delivery Receipt",
+ "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
   {

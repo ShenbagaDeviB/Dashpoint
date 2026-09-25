@@ -8,7 +8,7 @@ def get_stuck_deliveries():
     result = (frappe.qb.from_(DO)
         .select(DO.name, DO.customer_name, DO.assigned_rider, DO.creation)
         .where(
-            (DO.status.isin(["In Transit", "Re-Attempt Scheduled"]))
+            (DO.status.isin(["In Transit", "Re-attempt Scheduled"]))
             & (DO.creation < frappe.utils.add_days(frappe.utils.now_datetime(), -2))
         )
         .orderby(DO.creation)
@@ -18,9 +18,9 @@ def get_stuck_deliveries():
 def reassign_zone(from_rider,to_rider):
     try:
         frappe.db.sql(""" UPDATE `tabDelivery Order` SET assigned_rider =%s 
-                      WHERE assigned_rider =%s AND status='In Transit' """,(to_rider,from_rider))
+                      WHERE assigned_rider =%s AND status in ('In Transit','Re-attempt Scheduled') """,(to_rider,from_rider))
         frappe.db.commit()
-    except:
+    except Exception:
         frappe.db.rollback()
         frappe.log_error(
             frappe.get_traceback(),
@@ -45,3 +45,7 @@ def safe_delivery_order():
             i.pop("customer_phone",None)
             i.pop("customer_email",None)
     return orders
+
+@frappe.whitelist()
+def get_dispatch_center_name():
+    return "DashPoint Dispatch Center"

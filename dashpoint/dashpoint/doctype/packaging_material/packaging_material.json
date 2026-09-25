@@ -12,7 +12,7 @@
   "material_code",
   "unit_cost",
   "charge_to_customer",
-  "stock_quantity",
+  "stock_qty",
   "reorder_level",
   "is_active"
  ],
@@ -49,12 +49,6 @@
    "reqd": 1
   },
   {
-   "default": "0",
-   "fieldname": "stock_quantity",
-   "fieldtype": "Float",
-   "label": "Stock Quantity"
-  },
-  {
    "default": "20",
    "fieldname": "reorder_level",
    "fieldtype": "Float",
@@ -65,12 +59,18 @@
    "fieldname": "is_active",
    "fieldtype": "Check",
    "label": "Is Active"
+  },
+  {
+   "default": "0",
+   "fieldname": "stock_qty",
+   "fieldtype": "Float",
+   "label": "Stock Quantity"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-09-24 14:03:05.337105",
+ "modified": "2026-09-25 17:07:12.799228",
  "modified_by": "Administrator",
  "module": "Dashpoint",
  "name": "Packaging Material",
